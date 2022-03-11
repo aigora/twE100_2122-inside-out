@@ -1,14 +1,11 @@
 # Corredor del Laberinto
 Realizar un programa que permita al usiaro elegir entre laberintos de distinta dificultad. 
 
-[Descripción breve del proyecto a realizar (2-3 frases).]
-
 ## Integrantes del equipo
 Ana Ramos Palacios (anarp09)
 Almudena Ramos Platero (almudenarp)
-Eduardo Villaverde Carrascasa ()
+Eduardo Villaverde Carrascasa (Glutenfreee)
 Alejandro Urraco Nieto (AlejandroUrraco)
-
 
 ## Objetivos del trabajo
 Conocer los conceptos generales de la programación básica y su aplicación a la vida diaria.
