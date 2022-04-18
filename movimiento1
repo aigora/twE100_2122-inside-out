@@ -1,0 +1,22 @@
+#include <>stdio.h>
+
+int main()
+{
+  int a, d, w, s;
+  int movimiento;
+  float x = 0, y = 0;
+  
+  printf("Ingrese movimiento: ");
+  scanf(" %i", &movimiento);
+
+  switch(movimiento)
+  {
+    case 'a': x = x - 1; break;
+    case 'd': x = x + 1; break;
+    case 'w': y = y + 1; break;
+    case 's': y = y - 1; break;
+   }   
+    
+   printf("x = %f\ny = %f", x, y);
+   
+}
