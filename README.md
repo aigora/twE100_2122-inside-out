@@ -1,4 +1,4 @@
-# Corredor del Laberinto
+# Inside Out
 Realizar un programa que permita al usiaro elegir entre laberintos de distinta dificultad. 
 
 ## Integrantes del equipo
