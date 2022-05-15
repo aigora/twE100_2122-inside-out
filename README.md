@@ -1,5 +1,5 @@
 # Inside Out
-Realizar un programa que permita al usiaro elegir entre laberintos de distinta dificultad. 
+Realizar un programa que permita al usuario crear su propio laberinto y resolverlo. 
 
 ## Integrantes del equipo
 Ana Ramos Palacios (anarp09), 
