@@ -1,22 +1,78 @@
-#include <>stdio.h>
-
-int main()
+void movimiento (int matriz[100][100], int fil, int col)
 {
-  int a, d, w, s;
-  int movimiento;
-  float x = 0, y = 0;
-  
-  printf("Ingrese movimiento: ");
-  scanf(" %i", &movimiento);
+    int i, j, k=0, q=1, aux1=0, aux2=1;
+    char l;
+    float t;
+    int aux3=k, aux4=q;
+    for (t = 0; t < 10000; t=t+0.5)
+    {
+     printf("\033[2J\033[1;1H");
 
-  switch(movimiento)
-  {
-    case 'a': x = x - 1; break;
-    case 'd': x = x + 1; break;
-    case 'w': y = y + 1; break;
-    case 's': y = y - 1; break;
-   }   
-    
-   printf("x = %f\ny = %f", x, y);
-   
+    for ( i = 0; i < fil; i++)
+    {
+        for ( j = 0; j < col; j++)
+        {
+            if (matriz[i][j]==1)
+            {
+                printf(AMARILLO_F" * "RESET_COLOR);
+            }
+            else if (matriz[i][j]==2 || (aux3==i && aux4==j))
+            {
+                printf(" & ");
+            }
+            else
+            {
+                printf("   ");
+            }
+        }
+        printf("\n");
+    }
+
+        //l = getch ();
+        printf("w=arriba, s=abajo, a=izquierda, d=derecha\n");
+        printf("Número de movimientos: %2.f\n", t-0.5);
+
+        scanf("%c", &l);
+
+
+        if (l=='s')
+        {   k=aux1;
+            if (matriz[k+1][aux2]!=1)
+        {
+            matriz[k+1][aux2]=2;
+            matriz[k][aux2]=0;
+            aux1=k+1;
+        }
+        }
+        else if (l=='w')
+        {
+            k=aux1;
+            if (matriz[k-1][aux2]!=1)
+            {
+            matriz[k-1][aux2]=2;
+            matriz[k][aux2]=0;
+            aux1=k-1;
+            }
+        }
+        else if (l=='d')
+        {
+            q=aux2;
+            if (matriz[aux1][q+1]!=1)
+            {
+            matriz[aux1][q+1]=2;
+            matriz[aux1][q]=' ';
+            aux2=q+1;
+            }
+        }
+        else if (l=='a')
+        {
+            q=aux2;
+            if (matriz[aux1][q-1]!=1)
+            {
+            matriz[aux1][q-1]=2;
+            matriz[aux1][q]=0;
+            aux2=q-1;
+            }
+        }
+    }
 }
