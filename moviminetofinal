@@ -1,0 +1,89 @@
+void movimiento (int matriz[100][100], int fil, int col)
+{
+    int i, j, k=0, q=1, aux1=0, aux2=1;
+    char l;
+    int t;
+    int aux3=k, aux4=q;
+    for (t = 0; t < 10000; t++)
+    {
+        printf("\033[2J\033[1;1H");
+
+        for ( i = 0; i < fil; i++)
+        {
+            for ( j = 0; j < col; j++)
+            {
+                if (matriz[i][j]==1)
+                {
+                    printf(AMARILLO_F" * "RESET_COLOR);
+                }
+                else if (matriz[i][j]==2 || (aux3==i && aux4==j))
+                {
+                    printf(" & ");
+                }
+                else
+                {
+                    printf("   ");
+                }
+            }
+            printf("\n");
+        }
+    
+        //l = getch ();
+        printf("w=arriba, s=abajo, a=izquierda, d=derecha\n");
+        printf("Número de movimientos: %d\n", t);
+
+        /*scanf("%c", &l);*/
+        l=leertecla();
+
+        if (l=='s')
+        {   
+            k=aux1;
+            if (matriz[k+1][aux2]!=1)
+            {   
+                matriz[k+1][aux2]=2;
+                matriz[k][aux2]=0;
+                aux1=k+1;
+            }   
+        }
+        else if (l=='w')
+        {
+            k=aux1;
+            if (matriz[k-1][aux2]!=1)
+            {
+                matriz[k-1][aux2]=2;
+                matriz[k][aux2]=0;
+                aux1=k-1;
+            }
+        }
+        else if (l=='d')
+        {
+            q=aux2;
+            if (matriz[aux1][q+1]!=1)
+            {
+                matriz[aux1][q+1]=2;
+                matriz[aux1][q]=' ';
+                aux2=q+1;
+            }
+        }
+        else if (l=='a')
+        {
+            q=aux2;
+            if (matriz[aux1][q-1]!=1)
+            {
+                matriz[aux1][q-1]=2;
+                matriz[aux1][q]=0;
+                aux2=q-1;
+            }
+        }
+    }
+}
+
+char leertecla() 
+{
+    char input;
+    system("/bin/stty raw");
+    input = getchar();
+    system("/bin/stty cooked");
+
+    return input;
+}
