@@ -274,72 +274,76 @@ void Imprime_laberinto(char matriz[F][C])
 
 void copia_en_fichero(char matriz[F][C])
 {
-    FILE *pf;
-    int i, j, t=0;
-    char g;
-    // Abrimos fichero para escritura
-    printf("Elija donde quiere guardar el laberinto (1, 2, 3 o 4): ");
+FILE *pf;
+int i, j, t=0;
+char g;
+// Abrimos fichero para escritura
+printf("Elija donde quiere guardar el laberinto (1, 2, 3, 4, 5 o 6): ");
 
-    do
+do
+{
+    scanf(" %c", &g);
+switch (g)
+{
+case '1':
+    pf = fopen("Laberinto 1.txt", "w");
+    t=1;
+    break;
+case '2':
+    pf = fopen("Laberinto 2.txt", "w");
+    t=1;
+    break;
+case '3':
+    pf = fopen("Laberinto 3.txt", "w");
+    t=1;
+    break;
+case '4':
+    pf = fopen("Laberinto 4.txt", "w");
+    t=1;
+    break;
+case '5':
+    pf = fopen("Laberinto 5.txt", "w");
+    t=1;
+    break;
+case '6':
+    pf = fopen("Laberinto 6.txt", "w");
+    t=1;
+    break;
+default:
+
+printf("Input no válido\n");
+    break;
+}
+} while (t==0);
+
+if (pf == NULL) 
+{// Si el resultado es NULL mensaje de error
+printf("Error al abrir el fichero.\n");
+}
+else 
+{// Si ha funcionado, comienza escritura
+fprintf(pf, "%d", F-1);
+fprintf(pf, "\n");
+fprintf(pf, "%d", C-2);
+fprintf(pf, "\n");
+for ( i = 1; i < F; i++)
+{
+    for ( j = 1; j < C-1; j++)
     {
-        scanf(" %c", &g);
-        switch (g)
+        if (matriz[i][j]=='*')
         {
-            case '1':
-                pf = fopen("Laberinto 1.txt", "w");
-                t=1;
-                break;
-            case '2':
-                pf = fopen("Laberinto 2.txt", "w");
-                t=1;
-                break;
-            case '3':
-                pf = fopen("Laberinto 3.txt", "w");
-                t=1;
-                break;
-            case '4':
-                pf = fopen("Laberinto 4.txt", "w");
-                t=1;
-                break;
-            default:
-
-            printf("Input no válido\n");
-                break;
+            fprintf(pf, "1");
         }
-    }while (t==0);
-
-    if (pf == NULL) 
-    {   
-        // Si el resultado es NULL mensaje de error
-        printf("Error al abrir el fichero.\n");
-    }
-    else 
-    {   
-        // Si ha funcionado, comienza escritura
-        fprintf(pf, "%d", F-1);
-        fprintf(pf, "\n");
-        fprintf(pf, "%d", C-2);
-        fprintf(pf, "\n");
-
-        for ( i = 1; i < F; i++)
+        else
         {
-            for ( j = 1; j < C-1; j++)
-            {   
-                if (matriz[i][j]=='*')
-                {
-                    fprintf(pf, "1");
-                }
-                else
-                {
-                fprintf(pf, "0");
-                }
-            }
-            fprintf(pf, "\n");
+        fprintf(pf, "0");
         }
-        fclose(pf);
     }
-
-} 
+    fprintf(pf, "\n");
+}
+fclose(pf);
+}
+}
 
 void inicio()
 {
