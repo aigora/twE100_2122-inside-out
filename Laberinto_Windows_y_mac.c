@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #define AMARILLO_T "\x1b[33m"
 #define RESET_COLOR    "\x1b[0m"
 #define AMARILLO_F  "\x1b[43m"
@@ -40,7 +42,19 @@ void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
         matriz[i][C-1]=' ';
     }
 
-   
+    /*for ( i = 0; i < C; i++)
+    {
+        matriz[0][i]='_';
+        matriz[F-1][i]='-';
+    }*/
+    //entrada y salida del laberinto
+
+    /*matriz[0][0]=' ';
+    matriz[0][1]=' ';
+    matriz[0][2]=' ';
+    matriz[F-1][C-1]=' ';
+    matriz[F-1][C-2]=' ';
+    matriz[F-1][C-3]=' ';*/
     
     //interior del laberinto
     for ( i = 0; i < F; i++)
@@ -266,7 +280,7 @@ FILE *pf;
 int i, j, t=0;
 char g;
 // Abrimos fichero para escritura
-printf("Elija donde quiere guardar el laberinto (1, 2, 3, 4, 5 o 6): ");
+printf("Elija donde quiere guardar el laberinto (1, 2, 3 o 4): ");
 
 do
 {
@@ -480,26 +494,6 @@ FILE *file;
             col = k;
         }
     }
-    /*char r;
-    int fil, col;
-
-    r = fgetc(file);
-    if (r == EOF) {
-        fprintf(stderr, "invalid input\n");
-        fclose(file);
-        exit(1);
-    }
-    fil = r - '0';
-    printf("%d leido\n", fil);
-
-    r = fgetc(file);
-    if (r == EOF) {
-        fprintf(stderr, "invalid input\n");
-        fclose(file);
-        exit(1);
-    }
-    col = r - '0';
-    printf("%d leido\n", col);*/
 
     // cargamos array
     int lab[100][100];
@@ -514,14 +508,6 @@ FILE *file;
             if (r != '\n') // para la primera vez que entra
             {
                 lab[i][j] = r - '0';
-                /*if (lab[i][j]==1)
-                {
-                    printf(AMARILLO_F"*"RESET_COLOR);
-                }
-                else
-                {
-                    printf(" ");
-                }*/
                 j++;
             }
             r = fgetc(file);
@@ -618,4 +604,5 @@ void movimiento (int matriz[100][100], int fil, int col)
         }
     }
 }
+
 
