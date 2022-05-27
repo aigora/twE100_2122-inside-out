@@ -346,74 +346,85 @@ void inicio()
     char matriz[F][C];
     char matrizaux[F][C];
     char opcion;
-   
-    int t=0;
-    
-    printf("   ------------------------\n");
-    printf("  -  M E N Ú  de J U E G O  -  \n");
-    printf("   ------------------------\n\n");
-    printf("Elige:\n\n");
-    printf(" A. Laberinto 1  \n");
-    printf(" B. Laberinto 2  \n");
-    printf(" C. Laberinto 3  \n");
-    printf(" D. Laberinto 4  \n");
-    printf(" E. Laberinto 5  \n");
-    printf(" F. Laberinto 6  \n");
-    printf(" G. Crea laberinto \n");
+int t=0;
+printf("\n");
+printf("  -  M E N Ú  de J U E G O  -  \n");
+printf("   ------------------------\n\n");
+printf("Elige:\n\n");
+printf(" A. Laberinto 1  \n");
+printf(" B. Laberinto 2  \n");
+printf(" C. Laberinto 3  \n");
+printf(" D. Laberinto 4  \n");
+printf(" E. Laberinto 5  \n");
+printf(" F. Laberinto 6  \n");
+printf(" G. Crea laberinto \n");
 
-    do
-    {
-        scanf (" %c", &opcion);
+do
+{
+scanf (" %c", &opcion);
 
-        switch (opcion)
-        {
-            case 'a':
-            case 'A':
+switch (opcion)
+{
+case 'a':
+case 'A':
  
-                printf("Bienvenido al laberinto 1\n\n");
-                lectura_de_fichero(1);
-                t=1;
-                break;
+    printf("Bienvenido al laberinto 1\n\n");
+    lectura_de_fichero(1);
+    t=1;
+    break;
 
-            case 'b':
-            case 'B':
+case 'b':
+case 'B':
    
-                printf("Bienvenido al laberinto 2\n\n");
-                lectura_de_fichero(2);
-                t=1;
-                break;
+    printf("Bienvenido al laberinto 2\n\n");
+    lectura_de_fichero(2);
+    t=1;
+    break;
 
-            case 'c':
-            case 'C':
+case 'c':
+case 'C':
 
-                printf("Bienvenido al laberinto 3\n\n");
-                lectura_de_fichero(3);
-                t=1;
-                break;
+    printf("Bienvenido al laberinto 3\n\n");
+    lectura_de_fichero(3);
+    t=1;
+    break;
 
-            case 'd':
-            case 'D':
+case 'd':
+case 'D':
     
-                printf("Bienvenido al laberinto 4\n\n");
-                lectura_de_fichero(4);
-                t=1;
-                break;
-
-            case 'e':
-            case 'E':
+    printf("Bienvenido al laberinto 4\n\n");
+    lectura_de_fichero(4);
+    t=1;
+    break;
+case 'e':
+case 'E':
     
-            printf("¡¡Crea tu propio laberinto!!\n\n");
+    printf("Bienvenido al laberinto 4\n\n");
+    lectura_de_fichero(5);
+    t=1;
+    break;
+case 'f':
+case 'F':
     
-            t=1;
-            llama_funciones(matriz, matrizaux);
-            break;
+    printf("Bienvenido al laberinto 4\n\n");
+    lectura_de_fichero(6);
+    t=1;
+    break;
+case 'g':
+case 'G':
+    
+    printf("¡¡Crea tu propio laberinto!!\n\n");
+    t=1;
+    llama_funciones(matriz, matrizaux);
+    break;
 
-            default:
 
-            printf("LETRA INCORRECTA!!!! VUELVE A INTENTARLO <\n\n");
-            break;
-        }
-    }while (t==0);
+default:
+
+printf("LETRA INCORRECTA!!!! VUELVE A INTENTARLO <\n\n");
+break;
+}
+}while (t==0);
 
 }
 
