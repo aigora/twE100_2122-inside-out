@@ -34,11 +34,6 @@ void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
         matriz[i][C-1]=' ';
     }
 
-    /*for ( i = 0; i < C; i++)
-    {
-        matriz[0][i]='_';
-        matriz[F-1][i]='-';
-    }*/
     //entrada y salida del laberinto
 
     /*matriz[0][0]=' ';
