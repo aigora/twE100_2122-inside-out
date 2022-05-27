@@ -12,3 +12,6 @@ int main()
     inicio();
     return 0;
 }
+void llama_funciones(char matriz[F][C], char matrizaux[F][C]);
+void imprime_matriz(char matriz[F][C]);
+void crear_laberinto(char matriz[F][C], char matrizaux[F][C]);
