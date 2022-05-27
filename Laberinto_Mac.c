@@ -42,15 +42,6 @@ void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
         matriz[i][0]=' ';
         matriz[i][C-1]=' ';
     }
-
-    //entrada y salida del laberinto
-
-    /*matriz[0][0]=' ';
-    matriz[0][1]=' ';
-    matriz[0][2]=' ';
-    matriz[F-1][C-1]=' ';
-    matriz[F-1][C-2]=' ';
-    matriz[F-1][C-3]=' ';*/
     
     //interior del laberinto
     for ( i = 0; i < F; i++)
@@ -506,14 +497,6 @@ FILE *file;
             if (r != '\n') // para la primera vez que entra
             {
                 lab[i][j] = r - '0';
-                /*if (lab[i][j]==1)
-                {
-                    printf(AMARILLO_F"*"RESET_COLOR);
-                }
-                else
-                {
-                    printf(" ");
-                }*/
                 j++;
             }
             r = fgetc(file);
@@ -621,6 +604,3 @@ char leertecla()
 
     return input;
 }
-
-/*1.-Que se guarden los laberintos, usando ficheros, 2.-Que desaparezcan los números al pulsar 111, 
-3.-Que se pueda elegir el color del laberinto.*/
