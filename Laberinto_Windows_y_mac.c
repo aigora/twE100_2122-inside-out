@@ -266,7 +266,7 @@ FILE *pf;
 int i, j, t=0;
 char g;
 // Abrimos fichero para escritura
-printf("Elija donde quiere guardar el laberinto (1, 2, 3 o 4): ");
+printf("Elija donde quiere guardar el laberinto (1, 2, 3, 4, 5 o 6): ");
 
 do
 {
