@@ -9,6 +9,7 @@
 void llama_funciones(char matriz[F][C], char matrizaux[F][C]);
 void imprime_matriz(char matriz[F][C]);
 void crear_laberinto(char matriz[F][C], char matrizaux[F][C]);
+void Imprime_laberinto(char matriz[F][C]);
 void copia_en_fichero(char matriz[F][C]);
 void inicio();
 
@@ -157,6 +158,7 @@ void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
         }
     } while(1);
 }
+
 void imprime_matriz(char matriz[F][C])
 {
     int i, j;
@@ -190,7 +192,6 @@ void imprime_matriz(char matriz[F][C])
                 {
                     printf(" ");
                 }
-
                 if (j>=9 && j!=C-1)
                 {
                     printf(" %d", j);
@@ -213,144 +214,198 @@ void imprime_matriz(char matriz[F][C])
     }
 }
 
+void Imprime_laberinto(char matriz[F][C])
+{
+    int i, j;
+    for ( i = 0; i < F; i++)
+    {   
+        if (i!=0)
+        {
+            if (i<=9)
+            {
+                printf("  ");
+            }
+            else
+            {
+                printf(" ");
+            }
+        }
+        for ( j = 0; j < C; j++)
+        {
+            if (i==0 && j==0)
+            {
+                printf("     ");
+            }
+            
+            if (i==0)
+            {
+                if (j!=0 && j<=9)
+                {
+                    printf("   ");
+                }
+                if (j>9 && j!=C-1)
+                {
+                    printf("  ");
+                }
+            }
+            if (i!=0)
+            {
+                if (matriz[i][j]=='0') 
+                {
+                    matriz[i][j]=' '; //donde había ceros coloca un espacio
+                }
+                if (matriz[i][j]=='*')
+                {
+                    printf( AMARILLO_F"  %c"RESET_COLOR, matriz[i][j]);
+                }
+                else
+                {
+                    printf( "  %c", matriz[i][j]);
+                }
+            }
+        }
+        printf("\n");
+    }
+}
 
 void copia_en_fichero(char matriz[F][C])
 {
-FILE *pf;
-int i, j, t=0;
-char g;
-// Abrimos fichero para escritura
-printf("Elija donde quiere guardar el laberinto (1, 2, 3 o 4): ");
+    FILE *pf;
+    int i, j, t=0;
+    char g;
+    // Abrimos fichero para escritura
+    printf("Elija donde quiere guardar el laberinto (1, 2, 3 o 4): ");
 
-do
-{
-    scanf(" %c", &g);
-switch (g)
-{
-case '1':
-    pf = fopen("Laberinto 1.txt", "w");
-    t=1;
-    break;
-case '2':
-    pf = fopen("Laberinto 2.txt", "w");
-    t=1;
-    break;
-case '3':
-    pf = fopen("Laberinto 3.txt", "w");
-    t=1;
-    break;
-case '4':
-    pf = fopen("Laberinto 4.txt", "w");
-    t=1;
-    break;
-default:
-
-printf("Input no válido\n");
-    break;
-}
-} while (t==0);
-
-if (pf == NULL)
-{// Si el resultado es NULL mensaje de error
-printf("Error al abrir el fichero.\n");
-}
-else
-{// Si ha funcionado, comienza escritura
-fprintf(pf, "%d", F-1);
-fprintf(pf, "\n");
-fprintf(pf, "%d", C-2);
-fprintf(pf, "\n");
-for ( i = 1; i < F; i++)
-{
-    for ( j = 1; j < C-1; j++)
+    do
     {
-        if (matriz[i][j]=='*')
+        scanf(" %c", &g);
+        switch (g)
         {
-            fprintf(pf, "1");
-        }
-        else
-        {
-        fprintf(pf, "0");
-        }
-    }
-    fprintf(pf, "\n");
-}
-fclose(pf);
-}
-}
+            case '1':
+                pf = fopen("Laberinto 1.txt", "w");
+                t=1;
+                break;
+            case '2':
+                pf = fopen("Laberinto 2.txt", "w");
+                t=1;
+                break;
+            case '3':
+                pf = fopen("Laberinto 3.txt", "w");
+                t=1;
+                break;
+            case '4':
+                pf = fopen("Laberinto 4.txt", "w");
+                t=1;
+                break;
+            default:
 
+            printf("Input no válido\n");
+                break;
+        }
+    }while (t==0);
+
+    if (pf == NULL) 
+    {   
+        // Si el resultado es NULL mensaje de error
+        printf("Error al abrir el fichero.\n");
+    }
+    else 
+    {   
+        // Si ha funcionado, comienza escritura
+        fprintf(pf, "%d", F-1);
+        fprintf(pf, "\n");
+        fprintf(pf, "%d", C-2);
+        fprintf(pf, "\n");
+
+        for ( i = 1; i < F; i++)
+        {
+            for ( j = 1; j < C-1; j++)
+            {   
+                if (matriz[i][j]=='*')
+                {
+                    fprintf(pf, "1");
+                }
+                else
+                {
+                fprintf(pf, "0");
+                }
+            }
+            fprintf(pf, "\n");
+        }
+        fclose(pf);
+    }
+
+} 
 
 void inicio()
 {
     char matriz[F][C];
     char matrizaux[F][C];
     char opcion;
-int t=0;
-printf("   ------------------------\n");
+   
+    int t=0;
+    
+    printf("   ------------------------\n");
+    printf("  -  M E N Ú  de J U E G O  -  \n");
+    printf("   ------------------------\n\n");
+    printf(" A. Laberinto 1  \n");
+    printf(" B. Laberinto 2  \n");
+    printf(" C. Laberinto 3  \n");
+    printf(" D. Laberinto 4  \n");
+    printf(" E. Crer laberinto \n");
 
-   printf("  -  M E N U  de J U E G O  -  \n");
-printf("   ------------------------\n\n");
-   printf("+ Elige tu laberinto (letra A, B, C, D):\n\n");
-printf(" A. laberinto 1  \t");
-printf(" B. laberinto 2  \n");
-printf(" C. laberinto 3  \t");
-printf(" D. laberinto 4  \n\n");
- printf("+ E. Crea tu laberinto :\n\n");
-printf(" > ");
+    do
+    {
+        scanf (" %c", &opcion);
 
-do
-{
-scanf (" %c", &opcion);
+        switch (opcion)
+        {
+            case 'a':
+            case 'A':
+ 
+                printf("Bienvenido al laberinto 1\n\n");
+                lectura_de_fichero(1);
+                t=1;
+                break;
 
-switch (opcion)
-{
-case 'a':
-case 'A':
+            case 'b':
+            case 'B':
+   
+                printf("Bienvenido al laberinto 2\n\n");
+                lectura_de_fichero(2);
+                t=1;
+                break;
 
-    printf("Bienvenido al laberinto 1\n\n");
-    lectura_de_fichero(1);
-    t=1;
-    break;
+            case 'c':
+            case 'C':
 
-case 'b':
-case 'B':
+                printf("Bienvenido al laberinto 3\n\n");
+                lectura_de_fichero(3);
+                t=1;
+                break;
 
-    printf("Bienvenido al laberinto 2\n\n");
-    lectura_de_fichero(2);
-    t=1;
-    break;
+            case 'd':
+            case 'D':
+    
+                printf("Bienvenido al laberinto 4\n\n");
+                lectura_de_fichero(4);
+                t=1;
+                break;
 
-case 'c':
-case 'C':
+            case 'e':
+            case 'E':
+    
+            printf("¡¡Crea tu propio laberinto!!\n\n");
+    
+            t=1;
+            llama_funciones(matriz, matrizaux);
+            break;
 
-    printf("Bienvenido al laberinto 3\n\n");
-    lectura_de_fichero(3);
-    t=1;
-    break;
+            default:
 
-case 'd':
-case 'D':
+            printf("LETRA INCORRECTA!!!! VUELVE A INTENTARLO <\n\n");
+            break;
+        }
+    }while (t==0);
 
-    printf("Bienvenido al laberinto 4\n\n");
-    lectura_de_fichero(4);
-    t=1;
-    break;
-case 'e':
-case 'E':
-
-    printf("¡¡Crea tu propio laberinto!!\n\n");
-    t=1;
-    llama_funciones(matriz, matrizaux);
-    break;
-
-
-default:
-
-printf("LETRA INCORRECTA!!!! VUELVE A INTENTARLO <\n\n");
-break;
 }
-}while (t==0);
-
-}
-
-
