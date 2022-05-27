@@ -345,14 +345,17 @@ void inicio()
    
     int t=0;
     
-    printf("   ------------------------\n");
-    printf("  -  M E N Ú  de J U E G O  -  \n");
-    printf("   ------------------------\n\n");
-    printf(" A. Laberinto 1  \n");
-    printf(" B. Laberinto 2  \n");
-    printf(" C. Laberinto 3  \n");
-    printf(" D. Laberinto 4  \n");
-    printf(" E. Crer laberinto \n");
+printf("   ------------------------\n");
+printf("  -  M E N Ú  de J U E G O  -  \n");
+printf("   ------------------------\n\n");
+printf("Elige:\n\n");
+printf(" A. Laberinto 1  \n");
+printf(" B. Laberinto 2  \n");
+printf(" C. Laberinto 3  \n");
+printf(" D. Laberinto 4  \n");
+printf(" E. Laberinto 5  \n");
+printf(" F. Laberinto 6  \n");
+printf(" G. Crea laberinto \n");
 
     do
     {
