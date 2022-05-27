@@ -432,9 +432,9 @@ break;
 
 }
 
-void lectura_de_fichero (int n)
+void lectura_de_fichero(int n)
 {
-    FILE *file;
+FILE *file;
 
     switch (n)
     {
@@ -492,26 +492,6 @@ void lectura_de_fichero (int n)
             col = k;
         }
     }
-    /*char r;
-    int fil, col;
-
-    r = fgetc(file);
-    if (r == EOF) {
-        fprintf(stderr, "invalid input\n");
-        fclose(file);
-        exit(1);
-    }
-    fil = r - '0';
-    printf("%d leido\n", fil);
-
-    r = fgetc(file);
-    if (r == EOF) {
-        fprintf(stderr, "invalid input\n");
-        fclose(file);
-        exit(1);
-    }
-    col = r - '0';
-    printf("%d leido\n", col);*/
 
     // cargamos array
     int lab[100][100];
@@ -552,7 +532,6 @@ void lectura_de_fichero (int n)
     movimiento(lab, fil, col);
     
 }
-
 void movimiento (int matriz[100][100], int fil, int col)
 {
     int i, j, k=0, q=1, aux1=0, aux2=1;
