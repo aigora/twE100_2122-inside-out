@@ -6,20 +6,23 @@
 #define BLANCO_F   "\x1b[47m"
 #define F 16 //Como máximo 50 filas, apartir de ahí empieza a funcionar mal
 #define C 17//En la pantalla caben como máximo 51 columnas, si ampliamos la terminal caben 63 máximo.
+
 void llama_funciones(char matriz[F][C], char matrizaux[F][C]);
 void imprime_matriz(char matriz[F][C]);
 void crear_laberinto(char matriz[F][C], char matrizaux[F][C]);
 void Imprime_laberinto(char matriz[F][C]);
 void copia_en_fichero(char matriz[F][C]);
 void inicio();
-
-
+void lectura_de_fichero(int n);
+void movimiento (int matriz[100][100], int fil, int col);
+char leertecla();
 
 int main()
 {
     inicio();
     return 0;
 }
+
 void llama_funciones(char matriz[F][C], char matrizaux[F][C])
 {
     crear_laberinto (matriz, matrizaux); //Cuando pulsas 111 sales de la función crear_laberinto
@@ -27,6 +30,7 @@ void llama_funciones(char matriz[F][C], char matrizaux[F][C])
     Imprime_laberinto(matriz); //Imprime la matriz sustituyendo los ceros por espacios
     copia_en_fichero(matriz);
 }
+
 void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
 {
     int i, j, c, f, dist;
@@ -412,3 +416,217 @@ void inicio()
     }while (t==0);
 
 }
+
+void lectura_de_fichero (int n)
+{
+    FILE *file;
+
+    switch (n)
+    {
+    case 1:
+        file = fopen("Laberinto 1.txt", "r");
+        break;
+    case 2:
+        file = fopen("Laberinto 2.txt", "r");
+        break;
+    case 3:
+        file = fopen("Laberinto 3.txt", "r");
+        break;
+    case 4:
+        file = fopen("Laberinto 4.txt", "r");
+        break;
+    case 5:
+        file = fopen("Laberinto 5.txt", "r");
+        break;
+    case 6:
+        file = fopen("Laberinto 6.txt", "r");
+        break;
+    
+    default:
+        break;
+    }
+    if (file == NULL) {
+        printf("\nError; Cannot open file");
+        exit(1);
+    }
+
+    // leemos diensiónes laberinto
+    char r;
+    int i, j, k, kant, fil, col;
+
+    for ( i = 0; i < 2; i++ ) {
+        j = 1;
+        k = 0;
+        do {
+            r = fgetc(file);
+            if (r == '\n') break;
+
+            kant = r - '0';
+            /*printf("%d leido\n", kant);*/
+
+            k = kant + (k * j);
+            j = 10;
+        } while (1);
+        
+        /*printf("%d leido total\n", k);*/
+
+        if (i == 0) {
+            fil = k;
+        }
+        else {
+            col = k;
+        }
+    }
+    /*char r;
+    int fil, col;
+
+    r = fgetc(file);
+    if (r == EOF) {
+        fprintf(stderr, "invalid input\n");
+        fclose(file);
+        exit(1);
+    }
+    fil = r - '0';
+    printf("%d leido\n", fil);
+
+    r = fgetc(file);
+    if (r == EOF) {
+        fprintf(stderr, "invalid input\n");
+        fclose(file);
+        exit(1);
+    }
+    col = r - '0';
+    printf("%d leido\n", col);*/
+
+    // cargamos array
+    int lab[100][100];
+    i = 0;
+    j = 0;
+
+    r = fgetc(file);
+    do
+    {
+        do
+        {
+            if (r != '\n') // para la primera vez que entra
+            {
+                lab[i][j] = r - '0';
+                /*if (lab[i][j]==1)
+                {
+                    printf(AMARILLO_F"*"RESET_COLOR);
+                }
+                else
+                {
+                    printf(" ");
+                }*/
+                j++;
+            }
+            r = fgetc(file);
+        } while (r != '\n' || j < col);
+
+        i++;
+        j = 0;
+        r = fgetc(file);
+
+       /* printf("\n");*/
+
+    }  while (r != EOF || i < fil);
+
+    /*printf("fin lectura fichero\n");*/
+    fclose(file);
+    movimiento(lab, fil, col);
+    
+}
+
+void movimiento (int matriz[100][100], int fil, int col)
+{
+    int i, j, k=0, q=1, aux1=0, aux2=1;
+    char l;
+    int t;
+    int aux3=k, aux4=q;
+    for (t = 0; t < 10000; t++)
+    {
+     printf("\033[2J\033[1;1H");
+
+    for ( i = 0; i < fil; i++)
+    {
+        for ( j = 0; j < col; j++)
+        {
+            if (matriz[i][j]==1)
+            {
+                printf(AMARILLO_F" * "RESET_COLOR);
+            }
+            else if (matriz[i][j]==2 || (aux3==i && aux4==j))
+            {
+                printf(" & ");
+            }
+            else
+            {
+                printf("   ");
+            }
+        }
+        printf("\n");
+    }
+    
+        //l = getch ();
+        printf("w=arriba, s=abajo, a=izquierda, d=derecha\n");
+        printf("Número de movimientos: %d\n", t);
+
+        /*scanf("%c", &l);*/
+        l=leertecla();
+
+       
+        if (l=='s')
+        {   k=aux1;
+            if (matriz[k+1][aux2]!=1)
+        {
+            matriz[k+1][aux2]=2;
+            matriz[k][aux2]=0;
+            aux1=k+1;
+        }
+        }
+        else if (l=='w')
+        {
+            k=aux1;
+            if (matriz[k-1][aux2]!=1)
+            {
+            matriz[k-1][aux2]=2;
+            matriz[k][aux2]=0;
+            aux1=k-1;
+            }
+        }
+        else if (l=='d')
+        {
+            q=aux2;
+            if (matriz[aux1][q+1]!=1)
+            {
+            matriz[aux1][q+1]=2;
+            matriz[aux1][q]=' ';
+            aux2=q+1;
+            }
+        }
+        else if (l=='a')
+        {
+            q=aux2;
+            if (matriz[aux1][q-1]!=1)
+            {
+            matriz[aux1][q-1]=2;
+            matriz[aux1][q]=0;
+            aux2=q-1;
+            }
+        }
+    }
+}
+
+char leertecla() 
+{
+    char input;
+    system("/bin/stty raw");
+    input = getchar();
+    system("/bin/stty cooked");
+
+    return input;
+}
+
+/*1.-Que se guarden los laberintos, usando ficheros, 2.-Que desaparezcan los números al pulsar 111, 
+3.-Que se pueda elegir el color del laberinto.*/
