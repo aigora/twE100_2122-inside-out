@@ -1,3 +1,6 @@
+//¡¡Muy importante!! Este programa está hecho en un Mac, para que acepte los códigos de colores ANSI en windows, se tiene que ejecutar como 
+//administrador el siguiente comando: reg add HKEY_CURRENT_USER\Console /v VirtualTerminalLevel /t REG_DWORD /d 0x00000001 /f
+
 #include <stdio.h>
 #include "liblab.h"
 
