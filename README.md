@@ -2,10 +2,8 @@
 Realizar un programa que permita al usuario crear su propio laberinto y resolverlo. 
 
 ## Integrantes del equipo
-Ana Ramos Palacios (anarp09), 
-Almudena Ramos Platero (almudenarp), 
-Eduardo Villaverde Carrascosa (Glutenfreee), 
-Alejandro Urraco Nieto (AlejandroUrraco).
+Eduardo Villaverde Carrascosa (Glutenfreee)
+
 
 ## Objetivos del trabajo
 Conocer los conceptos generales de la programación básica y su aplicación a la vida diaria.
