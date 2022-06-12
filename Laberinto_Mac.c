@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define AMARILLO_T "\x1b[33m"
 #define RESET_COLOR    "\x1b[0m"
 #define AMARILLO_F  "\x1b[43m"
 #define BLANCO_F   "\x1b[47m"
+#define VERDE_F        "\x1b[42m"
+#define AZUL_F      "\x1b[44m"
+#define MAGENTA_F  "\x1b[45m"
+#define ROJO_F     "\x1b[41m"
 #define F 16 //Como máximo 50 filas, apartir de ahí empieza a funcionar mal
 #define C 17//En la pantalla caben como máximo 51 columnas, si ampliamos la terminal caben 63 máximo.
 
@@ -14,8 +17,18 @@ void Imprime_laberinto(char matriz[F][C]);
 void copia_en_fichero(char matriz[F][C]);
 void inicio();
 void lectura_de_fichero(int n);
-void movimiento (int matriz[100][100], int fil, int col);
+int movimiento (int matriz[100][100], int fil, int col, char color);
 char leertecla();
+void historial(int movimiento, int laberinto);
+void lectura_del_historial();
+void imprime_estadisticas();
+
+typedef struct 
+{
+    int movimientos;
+    int record;
+}estadisticas;
+
 
 int main()
 {
@@ -30,10 +43,9 @@ void llama_funciones(char matriz[F][C], char matrizaux[F][C])
     Imprime_laberinto(matriz); //Imprime la matriz sustituyendo los ceros por espacios
     copia_en_fichero(matriz);
 }
-
 void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
 {
-    int i, j, c, f, dist;
+    int i, j, c, f, dist, g;
     char tipo;
 
     //borde del laberinto
@@ -42,6 +54,20 @@ void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
         matriz[i][0]=' ';
         matriz[i][C-1]=' ';
     }
+
+    /*for ( i = 0; i < C; i++)
+    {
+        matriz[0][i]='_';
+        matriz[F-1][i]='-';
+    }*/
+    //entrada y salida del laberinto
+
+    /*matriz[0][0]=' ';
+    matriz[0][1]=' ';
+    matriz[0][2]=' ';
+    matriz[F-1][C-1]=' ';
+    matriz[F-1][C-2]=' ';
+    matriz[F-1][C-3]=' ';*/
     
     //interior del laberinto
     for ( i = 0; i < F; i++)
@@ -92,6 +118,10 @@ void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
         {
             if (f==111) //si escribes 111 termina el búcle y pasa a la función Imprime_laberinto
             {
+                printf("Seleccione el final del laberinto\n");
+                scanf(" %d", &g);
+                scanf(" %d", &c);
+                matriz[g][c]='$';
                 break;
             }
             else
@@ -153,7 +183,6 @@ void crear_laberinto (char matriz[F][C], char matrizaux[F][C])
         }
     } while(1);
 }
-
 void imprime_matriz(char matriz[F][C])
 {
     int i, j;
@@ -187,6 +216,7 @@ void imprime_matriz(char matriz[F][C])
                 {
                     printf(" ");
                 }
+
                 if (j>=9 && j!=C-1)
                 {
                     printf(" %d", j);
@@ -208,7 +238,6 @@ void imprime_matriz(char matriz[F][C])
         printf("\n");
     }
 }
-
 void Imprime_laberinto(char matriz[F][C])
 {
     int i, j;
@@ -262,14 +291,26 @@ void Imprime_laberinto(char matriz[F][C])
         printf("\n");
     }
 }
-
 void copia_en_fichero(char matriz[F][C])
 {
 FILE *pf;
-int i, j, t=0;
+int i, j, t=0, r=0;
 char g;
+char color;
+printf("Elija de que color quiere que sea el laberinto (r=rojo, a=amarillo, w=azul, b=blanco, v=verde, m=magenta)\n");
+do
+{
+    scanf("%c", &color);
+    if (color=='r' || color=='a' || color=='w' || color=='b' || color=='v' || color=='m')
+    {
+        r=1;
+    }
+    
+} while (r==0);
+
 // Abrimos fichero para escritura
 printf("Elija donde quiere guardar el laberinto (1, 2, 3, 4, 5 o 6): ");
+
 
 do
 {
@@ -317,6 +358,8 @@ fprintf(pf, "%d", F-1);
 fprintf(pf, "\n");
 fprintf(pf, "%d", C-2);
 fprintf(pf, "\n");
+fprintf(pf, "%c", color);
+fprintf(pf, "\n");
 for ( i = 1; i < F; i++)
 {
     for ( j = 1; j < C-1; j++)
@@ -325,6 +368,10 @@ for ( i = 1; i < F; i++)
         {
             fprintf(pf, "1");
         }
+        else if (matriz[i][j]=='$')
+        {
+            fprintf(pf, "3");
+        }   
         else
         {
         fprintf(pf, "0");
@@ -335,7 +382,6 @@ for ( i = 1; i < F; i++)
 fclose(pf);
 }
 }
-
 void inicio()
 {
     char matriz[F][C];
@@ -353,6 +399,7 @@ printf(" D. Laberinto 4  \n");
 printf(" E. Laberinto 5  \n");
 printf(" F. Laberinto 6  \n");
 printf(" G. Crea laberinto \n");
+printf(" H. Historial de partidas \n");
 
 do
 {
@@ -412,6 +459,13 @@ case 'G':
     t=1;
     llama_funciones(matriz, matrizaux);
     break;
+case 'h':
+case 'H':
+
+    printf("\033[2J\033[1;1H");  
+    t=1;
+    imprime_estadisticas();
+    break;
 
 
 default:
@@ -422,9 +476,10 @@ break;
 }while (t==0);
 
 }
-
 void lectura_de_fichero(int n)
 {
+    char color;
+    int x;
 FILE *file;
 
     switch (n)
@@ -460,7 +515,8 @@ FILE *file;
     char r;
     int i, j, k, kant, fil, col;
 
-    for ( i = 0; i < 2; i++ ) {
+    for ( i = 0; i < 2; i++ ) 
+    {
         j = 1;
         k = 0;
         do {
@@ -483,7 +539,8 @@ FILE *file;
             col = k;
         }
     }
-
+    //leemos el color del laberinto
+    color=fgetc(file);
     // cargamos array
     int lab[100][100];
     i = 0;
@@ -512,18 +569,18 @@ FILE *file;
 
     /*printf("fin lectura fichero\n");*/
     fclose(file);
-    movimiento(lab, fil, col);
+    historial(movimiento(lab, fil, col, color), n);
     
 }
-void movimiento (int matriz[100][100], int fil, int col)
+int movimiento (int matriz[100][100], int fil, int col, char color)
 {
-    int i, j, k=0, q=1, aux1=0, aux2=1;
+    int i, j, k=0, q=1, aux1=0, aux2=1, x=0;
     char l;
     int t;
-    int aux3=k, aux4=q;
-    for (t = 0; t < 10000; t++)
+    int aux3=k, aux4=q, aux5, aux6;
+    for (t = 0; x==0; t++)
     {
-     printf("\033[2J\033[1;1H");
+    printf("\033[2J\033[1;1H");
 
     for ( i = 0; i < fil; i++)
     {
@@ -531,17 +588,49 @@ void movimiento (int matriz[100][100], int fil, int col)
         {
             if (matriz[i][j]==1)
             {
-                printf(AMARILLO_F" * "RESET_COLOR);
+                switch (color)
+                {
+                case 'a':
+                    printf(AMARILLO_F" * "RESET_COLOR);
+                    break;
+                case 'b':
+                    printf(BLANCO_F" * "RESET_COLOR);
+                    break;
+                case 'r':
+                    printf(ROJO_F" * "RESET_COLOR);
+                    break;
+                case 'w':
+                    printf(AZUL_F" * "RESET_COLOR);
+                    break;
+                case 'm':
+                    printf(MAGENTA_F" * "RESET_COLOR);
+                    break;
+                case 'v':
+                    printf(VERDE_F" * "RESET_COLOR);
+                    break;
+                
+                default:
+                    break;
+                }
+
             }
+
             else if (matriz[i][j]==2 || (aux3==i && aux4==j))
             {
                 printf(" & ");
+            }
+            else if (matriz[i][j]==3)
+            {
+                printf(" $ ");
+                aux5=i;
+                aux6=j;
             }
             else
             {
                 printf("   ");
             }
         }
+        
         printf("\n");
     }
     
@@ -592,9 +681,14 @@ void movimiento (int matriz[100][100], int fil, int col)
             aux2=q-1;
             }
         }
+        if (matriz[aux5][aux6]!=3)
+        {
+            x=1;
+        }
     }
-}
+    return t;
 
+}
 char leertecla() 
 {
     char input;
@@ -603,4 +697,94 @@ char leertecla()
     system("/bin/stty cooked");
 
     return input;
+}
+void historial(int movimiento, int laberinto)
+{
+    int i, lastgame[6], record[6];
+
+    FILE *pf, *pr;
+
+    pf=fopen("Estadistica.csv", "r");
+    if (pf == NULL)
+    {
+    printf("Error al abrir el fichero.");
+    exit(1);
+    }
+    else
+    {// Fichero abierto correctamente
+    // Lee datos y almacena en vectores
+    i = 0;
+    while(i<6)
+    {
+        fscanf(pf, " %i; %i", &lastgame[i], &record[i]);
+        i++;
+    }
+
+    fclose(pf);
+    }
+    
+    
+    pr=fopen("Estadistica.csv", "w");
+    if (pr == NULL)
+    {
+    printf("Error al abrir el fichero.");
+    exit(1);
+    }
+    else
+    {// Fichero abierto correctamente
+    for ( i = 0; i < 6; i++)
+    {
+        if (i==laberinto-1)
+        {
+            if (movimiento<record[i])
+            {
+                fprintf(pr, "%d; %d\n", movimiento, movimiento);
+            }
+            else
+            {
+                fprintf(pr, "%d; %d\n", movimiento, record[i]);
+            }
+        }
+        else
+        {
+        fprintf(pr, "%d; %d\n", lastgame[i], record[i]);
+        }
+        
+    }
+    
+    fclose(pr);
+    }
+
+}
+void imprime_estadisticas()
+   {
+    int i;
+    estadisticas juego[6];
+    FILE *f;
+    f=fopen("Estadistica.csv", "r");
+    if (f==NULL)
+    {
+        printf("Error al abrir el fichero");
+        exit(1);
+    }
+    else
+    {
+    for ( i = 0; i < 6; i++)
+    {
+        fscanf(f, " %d; %d", &juego[i].movimientos, &juego[i].record);
+    }
+    fclose(f);
+    printf("\t\tÚltima partida \t Record\n");
+    for ( i = 0; i < 6; i++)
+    {
+        if (juego[i].movimientos==10000)
+        {
+        printf("Laberinto %d:\t\t-\t   -\n", i+1);
+        }
+        else
+        {
+        printf("Laberinto %d:\t\t%d\t   %d\n", i+1, juego[i].movimientos, juego[i].record);
+        }
+    }
+    }
 }
