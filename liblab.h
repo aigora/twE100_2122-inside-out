@@ -2,7 +2,7 @@
 #define _LIBRERIA
 
 #include <stdlib.h>
-#include <stdio.h>
+
 
 #ifdef _WIN32        // si compilamos en win32 /win64
 
