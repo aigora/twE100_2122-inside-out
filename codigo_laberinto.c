@@ -386,8 +386,7 @@ break;
 void lectura_de_fichero(int n)
 {
     char color;
-    int x;
-FILE *file;
+    FILE *file;
 
     switch (n)
     {
@@ -411,6 +410,7 @@ FILE *file;
         break;
     
     default:
+        file=NULL;
         break;
     }
     if (file == NULL) {
