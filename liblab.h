@@ -2,7 +2,7 @@
 #define _LIBRERIA
 
 #include <stdlib.h>
-
+#include <stdio.h>
 
 #ifdef _WIN32        // si compilamos en win32 /win64
 
@@ -23,7 +23,5 @@
 void copiamatriz(int fil, int col, char* m1, char* m2);
 void imprime_matriz(char matriz[F][C]);
 char leertecla();
-
-#include  "liblab.c"
 
 #endif
